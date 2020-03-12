@@ -1,0 +1,158 @@
+<body>
+    
+
+<img class = 'burgerimg' src='https://lh3.googleusercontent.com/proxy/XgIOw6Urluv5DoWHnouMAwCVg8--EuEhAX-p6P0XGw5ujYm5Un2KacYUXPBQpXzuUwXlYXukzChAVgWqmzimpfTMmQ'>
+
+<h2>Add a Burger to Eat!</h2>
+
+
+<div class = 'left'>
+<ul>
+    {{#each burgers}}
+    <li>
+        <p class = 'undevouredBurgers'> 
+            {{id}}. {{burger_name}}
+
+            <button data-burgerid='{{id}}' class='devburger'>Devour!</button>
+        </p>
+    </li>
+    {{/each}}
+</ul>
+</div>
+
+
+<div class="right">
+<ul>
+    {{#each devburgers}}
+    <li>
+        <p  class = 'devouredBurgers'>
+            {{id}}. {{burger_name}}
+
+           
+        </p>
+    </li>
+    {{/each}}
+</ul>
+</div>
+
+<form action = '/' method = "POST" id ='addburger' class='button-size'>
+    <textarea type='text' name='burger_name'></textarea>
+    <br>
+    <button class = 'subButton' type='submit'>Submit</button>
+</form>
+
+
+
+
+<script type='text/javascript'>
+    $('.devburger').on('click', function(event) { 
+        {{!-- event.preventDefault(); --}}
+
+        var id = $(this).data("burgerid");
+
+        var newBurger = { 
+            burger: $('.devburger').val().trim()
+        };
+        
+        $.ajax('/api/burgers/' + id, { 
+            type: 'PUT',
+            data: newBurger
+        }).then(
+            function() { 
+                console.log('updated id', id);
+
+                location.reload();
+            }
+        )
+    })
+
+
+
+</script>
+</body>
+<style>
+
+body { 
+   background-color: wheat;
+   text-align: center;
+}
+
+.undevouredBurgers { 
+    background-color: white;
+    padding: 25px;
+    border: 2px solid black;
+    color: black;
+    font-family:'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
+.devouredBurgers { 
+    background-color: whitesmoke;
+    padding: 5px;
+    border: 2px solid rgb(194, 193, 193);    
+    color: rgb(177, 175, 175); 
+    margin-right: 50px;
+}
+
+.left {     
+    background-color: wheat;
+    display: inline-block;
+    float: left;
+    height: 450px;
+    width: 350px;
+
+    
+}
+
+.right { 
+      display: inline-block;
+      background-color: wheat;
+      float: right;
+      height: 450px;
+      width: 350px;
+      text-align: left;
+     
+}
+
+#addburger { 
+    text-align: center;
+
+    
+}
+
+h2 { 
+    text-align: center;
+    color: red;
+}
+
+.burgerimg { 
+    align-content: center;
+    background-color: wheat;
+    height: 200px;
+    width: 200px;
+}
+
+ul { 
+    list-style-type: none;
+}
+
+textarea { 
+    width: 450px;
+    height: 75px;
+}
+
+.subButton { 
+    background-color: rgb(65, 65, 206);
+    color: white;
+    height: 45px;
+    width: 75px;
+    border-radius: 10%;
+}
+
+.devburger { 
+    margin-left: 300px;
+    height: 45px;
+    width: 75px;
+    border-radius: 10%;
+}
+</style> 
